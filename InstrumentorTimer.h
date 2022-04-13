@@ -43,6 +43,7 @@ private:
 private:
     Instrumentor()
             : m_SessionName("None"), m_ProfileCount(0), m_ActiveSession(false) {
+        ;
     }
 
 public:
@@ -110,19 +111,19 @@ public:
 
 class InstrumentationTimer {
 private:
-    const char* m_Name;
+    const char *m_Name;
 
     std::chrono::time_point<std::chrono::high_resolution_clock> m_StartTimepoint;
     bool m_Stopped;
 
 public:
-    explicit InstrumentationTimer(const char* name)
+    explicit InstrumentationTimer(const char *name)
             : m_Name(name), m_Stopped(false) {
         m_StartTimepoint = std::chrono::high_resolution_clock::now();
     }
 
     ~InstrumentationTimer() {
-        if (!m_Stopped){
+        if (!m_Stopped) {
             Stop();
         }
     }
