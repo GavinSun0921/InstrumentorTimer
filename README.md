@@ -26,7 +26,7 @@ Instrumentor::Get().EndSession();                        // End Session
 
 ### 示例
 
-如[Demo.cpp](https://github.com/GavinSun0921/InstrumentorTimer/blob/main/demo.cpp)文件中，在将头文件引入后，在mian函数中调用 BeginSession() 和 EndSession() 函数，中间调用 Fibonacci 函数进行计时，仅需在函数域头部创建 InstrumentationTimer 的实例即可开始计时，当希望停止计时时调用该实例的 Stop() 函数即可，当作用域完成后该实例销毁，析构函数会检测当前是否已经完成计时，如果没有完成会自动调用 Stop() 函数。
+如[Demo.cpp](https://github.com/GavinSun0921/InstrumentorTimer/blob/main/demo.cpp)文件中，在将头文件引入后，在mian函数中调用 `BeginSession()` 和 `EndSession()` 函数，中间调用 `Fibonacci()` 函数进行计时，仅需在函数域头部创建 `InstrumentationTimer` 的实例即可开始计时，当希望停止计时时调用该实例的 `Stop()` 函数即可，当作用域完成后该实例销毁，析构函数会检测当前是否已经完成计时，如果没有完成会自动调用 `Stop()` 函数。
 
 ```C++
 int Fibonacci(int x) {
