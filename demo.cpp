@@ -28,7 +28,7 @@ namespace Benchmark {
 }
 
 int main() {
-    Instrumentor::Instance().BeginSession("Profile");
+    Instrumentor::Instance().BeginSession("Benchmark");
     Benchmark::RunBenchmarks();
     Instrumentor::Instance().EndSession();
     return 0;
