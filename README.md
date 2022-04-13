@@ -17,7 +17,7 @@ Instrumentor::BeginSession("SessionName");               // Begin session
 {
     InstrumentationTimer timer("Profiled Scope Name");   // Place code like this in scopes you'd like to include in profiling
     // Code Blocks
-    // timer.Stop();																		 // (Optional) Stop timing manually, timer's destructor will call this function automatically
+    // timer.Stop();                                     // (Optional) Stop timing manually, timer's destructor will call this function automatically
 }
 // Instrumentor::EndSession();                           // (Optional) End Session manually, Instrumentor's destuctor will call this function automatically
 ```
