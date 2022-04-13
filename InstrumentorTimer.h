@@ -10,7 +10,7 @@
 
 // Usage: include this header file somewhere in your code (e.g. precompiled header), and then use like:
 //
-// Instrumentor::Get().BeginSession("Session Name");        // Begin session 
+// Instrumentor::Get().BeginSession("Session Name");        // Begin session
 // {
 //     InstrumentationTimer timer("Profiled Scope Name");   // Place code like this in scopes you'd like to include in profiling
 //     // Code
@@ -56,14 +56,14 @@ public:
         EndSession();
     }
 
-    void BeginSession(const std::string &name, const std::string &filepath = "results.json") {
+    void BeginSession(const std::string &name, const std::string &filepath = "Results.json") {
         if (m_ActiveSession) {
             EndSession();
         }
         m_ActiveSession = true;
         m_SessionName = name;
 
-        m_OutputStream.open(filepath);
+        m_OutputStream.open(m_SessionName + std::string("_") + filepath);
         WriteHeader();
     }
 
@@ -92,7 +92,7 @@ public:
         m_OutputStream << "\"dur\":" << (result.End - result.Start) << ',';
         m_OutputStream << "\"name\":\"" << name << "\",";
         m_OutputStream << "\"ph\":\"X\",";
-        m_OutputStream << "\"pid\":\"Main\",";
+        m_OutputStream << "\"pid\":\"" << m_SessionName << "\",";
         m_OutputStream << "\"tid\":" << result.ThreadID << ",";
         m_OutputStream << "\"ts\":" << result.Start;
         m_OutputStream << "}";
