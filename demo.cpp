@@ -29,8 +29,7 @@ namespace Benchmark {
 }
 
 int main() {
-    Instrumentor::Instance().BeginSession("Benchmark");
+    Instrumentor::BeginSession("Benchmark");
     Benchmark::RunBenchmarks();
-    Instrumentor::Instance().EndSession();
     return 0;
 }
