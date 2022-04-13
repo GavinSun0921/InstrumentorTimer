@@ -62,6 +62,7 @@ public:
         }
         m_ActiveSession = true;
         m_SessionName = name;
+
         m_OutputStream.open(filepath);
         WriteHeader();
     }
@@ -71,9 +72,10 @@ public:
             return;
         }
         m_ActiveSession = false;
+        m_ProfileCount = 0;
+
         WriteFooter();
         m_OutputStream.close();
-        m_ProfileCount = 0;
     }
 
     void WriteProfile(const ProfileResult &result) {
