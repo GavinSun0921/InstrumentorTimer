@@ -40,23 +40,39 @@ private:
     std::mutex m_Lock;
     bool m_ActiveSession;
 
-private:
-    Instrumentor()
-            : m_SessionName("None"), m_ProfileCount(0), m_ActiveSession(false) {
-        ;
-    }
-
 public:
-    static Instrumentor &Instance() {
-        static Instrumentor instance;
-        return instance;
-    }
 
     ~Instrumentor() {
         EndSession();
     }
 
-    void BeginSession(const std::string &name, const std::string &filepath = "Results.json") {
+    Instrumentor(const Instrumentor &) = delete;
+
+    static void BeginSession(const std::string &name, const std::string &filepath = "Results.json") {
+        GetInstance().BeginSessionImpl(name, filepath);
+    }
+
+    static void EndSession() {
+        GetInstance().EndSessionImpl();
+    }
+
+    static void WriteProfile(const ProfileResult &result) {
+        GetInstance().WriteProfileImlp(result);
+    }
+
+private:
+
+    Instrumentor()
+            : m_SessionName("None"), m_ProfileCount(0), m_ActiveSession(false) {
+        ;
+    }
+
+    static Instrumentor &GetInstance() {
+        static Instrumentor instance;
+        return instance;
+    }
+
+    void BeginSessionImpl(const std::string &name, const std::string &filepath = "Results.json") {
         if (m_ActiveSession) {
             EndSession();
         }
@@ -67,7 +83,7 @@ public:
         WriteHeader();
     }
 
-    void EndSession() {
+    void EndSessionImpl() {
         if (!m_ActiveSession) {
             return;
         }
@@ -78,7 +94,17 @@ public:
         m_OutputStream.close();
     }
 
-    void WriteProfile(const ProfileResult &result) {
+    void WriteHeader() {
+        m_OutputStream << "{\"otherData\": {},\"traceEvents\":[";
+        m_OutputStream.flush();
+    }
+
+    void WriteFooter() {
+        m_OutputStream << "]}";
+        m_OutputStream.flush();
+    }
+
+    void WriteProfileImlp(const ProfileResult &result) {
         std::lock_guard<std::mutex> lockGuard(m_Lock);
 
         if (m_ProfileCount++ > 0)
@@ -97,16 +123,6 @@ public:
         m_OutputStream << "\"ts\":" << result.Start;
         m_OutputStream << "}";
 
-        m_OutputStream.flush();
-    }
-
-    void WriteHeader() {
-        m_OutputStream << "{\"otherData\": {},\"traceEvents\":[";
-        m_OutputStream.flush();
-    }
-
-    void WriteFooter() {
-        m_OutputStream << "]}";
         m_OutputStream.flush();
     }
 };
@@ -139,7 +155,7 @@ public:
                 endTimepoint).time_since_epoch().count();
 
         uint64_t threadID = std::hash<std::thread::id>{}(std::this_thread::get_id());
-        Instrumentor::Instance().WriteProfile({m_Name, start, end, threadID});
+        Instrumentor::WriteProfile({m_Name, start, end, threadID});
 
         m_Stopped = true;
     }
