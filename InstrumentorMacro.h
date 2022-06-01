@@ -8,4 +8,5 @@
 #endif
 #else
 #define PROFILE_SCOPE(name)
+#define PROFILE_FUNCTION()
 #endif
