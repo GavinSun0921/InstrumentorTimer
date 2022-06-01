@@ -25,6 +25,8 @@
 #include <chrono>
 #include <fstream>
 #include <thread>
+#include <mutex>
+#include <algorithm>
 
 struct ProfileResult {
     std::string Name;
