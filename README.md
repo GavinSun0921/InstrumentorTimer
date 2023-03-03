@@ -31,19 +31,19 @@ Instrumentor::BeginSession("SessionName");               // Begin session
 ```C++
 int Fibonacci(int x) {
     std::string name = std::string("Fibonacci ") + std::to_string(x);
-  	InstrumentationTimer timer(name.c_str());
-  	// PROFILE_SCOPE(name.c_str());     // Available only when include header file 'InstrumentorMacro.h'
+    InstrumentationTimer timer(name.c_str());
+    // PROFILE_SCOPE(name.c_str());     // Available only when include header file 'InstrumentorMacro.h'
 
-	  if (x < 3) return 1;
-	  std::cout << "not finished" << std::endl;
- 	 	int part1 = Fibonacci(x - 1);
- 	 	int part2 = Fibonacci(x - 2);
- 	 	return part1 + part2;
+    if (x < 3) return 1;
+    std::cout << "not finished" << std::endl;
+    int part1 = Fibonacci(x - 1);
+    int part2 = Fibonacci(x - 2);
+    return part1 + part2;
 }
 
 int main() {
-  	Instrumentor::BeginSession("Benchmark");
-  	Fibonacci(5);
+    Instrumentor::BeginSession("Benchmark");
+    Fibonacci(5);
 }
 ```
 
